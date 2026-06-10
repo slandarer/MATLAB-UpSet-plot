@@ -16,6 +16,8 @@ classdef UpSetPlot < handle
 % MATLAB Central File Exchange. Retrieved April 27, 2026.
 % ## gitee
 % https://gitee.com/slandarer/matlab-up-set-plot
+% ## github
+% https://github.com/slandarer/MATLAB-UpSet-plot
 
     properties
         arginList = {'SetName', 'Mode', 'BarColorI', 'BarColorS', 'LineColor'}
