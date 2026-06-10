@@ -57,8 +57,9 @@ classdef UpSetPlot < handle
         % =================================================================
         sortSetSize, sortSetIndex,
         nzCount, nzIndex, nzNum, binCount, 
-        fulBool, decList, decCode, SetSize,
-        barHdlI, barHdlS, txtHdlI, txtHdlS, nameHdl
+        fulBool, decList, decCode, SetSize, oriIndex
+        barHdlI, barHdlS, txtHdlI, txtHdlS, nameHdl, 
+        bkgEdgeHdl, olineHdl
     end
 
     methods
@@ -96,7 +97,8 @@ classdef UpSetPlot < handle
 
             % Convert each sample row to decimal code
             obj.decList = 2.^((obj.SetNum - 1) : -1 : 0).';
-            obj.decCode = sort(obj.SetMat*obj.decList);
+            obj.oriIndex = obj.SetMat*obj.decList;
+            obj.decCode = sort(obj.oriIndex);
 
             % Count occurrences of each combination (distinct mode)
             obj.binCount = zeros(2^obj.SetNum - 1, 1);
@@ -196,6 +198,10 @@ classdef UpSetPlot < handle
                 fill(obj.axC, obj.axI.XLim([1,2,2,1]), [-.5, -.5, .5, .5] + i, ...
                     obj.PatchColor(mod(i+1, 2)+1, :), 'EdgeColor', 'none');
             end
+            for i = 1:obj.SetNum
+                obj.bkgEdgeHdl(i) = plot(obj.axC, obj.axI.XLim([1,2,2,1,1]), [-.5, -.5, .5, .5,-.5] + i, ...
+                    'Color','none', 'LineWidth',2);
+            end
             % Empty dots.
             [tX, tY] = meshgrid(1:min(MaxBars, obj.nzNum), 1:obj.SetNum);
             plot(obj.axC, tX(:), tY(:), 'o', 'Color',obj.BkgDotColor(1, :), ...
@@ -204,11 +210,30 @@ classdef UpSetPlot < handle
             for i = 1:min(MaxBars, obj.nzNum)
                 tY = find(obj.fulBool(obj.nzIndex(i), obj.sortSetIndex));
                 tX = tY.*0 + i;
-                plot(obj.axC, tX, tY, '-o', 'Color',obj.LineColor(1, :), ...
+                obj.olineHdl(i) = plot(obj.axC, tX, tY, '-o', 'Color',obj.LineColor(1, :), ...
                     'MarkerEdgeColor','none', 'MarkerFaceColor',obj.LineColor(1, :), ...
                     'MarkerSize',10, 'LineWidth',2);
             end
 
+        end
+
+        function highlightI(obj, n, Color)
+            if nargin < 3
+                Color = [.8, 0, 0];
+            end
+            obj.barHdlI.CData(n, :) = Color;
+            set(obj.olineHdl(n), 'Color',Color, 'MarkerFaceColor',Color);
+            set(obj.txtHdlI(n), 'Color',Color);
+        end
+
+        function highlightS(obj, n, Color)
+            if nargin < 3
+                Color = [.8, 0, 0];
+            end
+            obj.barHdlS.CData(n, :) = Color;
+            set(obj.txtHdlS(n), 'Color',Color);
+            set(obj.nameHdl(n), 'Color',Color);
+            set(obj.bkgEdgeHdl(n), 'Color',Color);
         end
     end
 end
