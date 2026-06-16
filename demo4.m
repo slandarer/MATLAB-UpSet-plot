@@ -1,4 +1,4 @@
-% demo 4 : Large dataset (100 million samples, 7 sets)
+%% demo 4 : Large dataset (100 million samples, 7 sets)
 rng(5)
 
 % Generate large sparse binary matrix (100M samples, 7 sets).

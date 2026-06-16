@@ -1,4 +1,4 @@
-% demo 1 : Basic uasge | UpSet mode: 'distinct'(default)
+%% demo 1 : Basic uasge | UpSet mode: 'distinct'(default)
 
 rng(1)
 % Define set names (5 categories).

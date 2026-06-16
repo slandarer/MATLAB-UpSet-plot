@@ -1,4 +1,4 @@
-% demo 2 : UpSet mode: 'intersect'
+%% demo 2 : UpSet mode: 'intersect'
 
 rng(1)
 setName = {'RB1','PIK3R1','EGFR','TP53','PTEN'};

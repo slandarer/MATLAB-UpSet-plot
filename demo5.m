@@ -1,4 +1,4 @@
-% demo 5 : Stacked bar chart visualization of additional information (distinct mode only).
+%% demo 5 : Stacked bar chart visualization of additional information (distinct mode only).
 
 
 rng(1)

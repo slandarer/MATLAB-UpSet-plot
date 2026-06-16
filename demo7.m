@@ -1,4 +1,4 @@
-% demo 7 : markers
+%% demo 7 : markers
 
 
 rng(1)

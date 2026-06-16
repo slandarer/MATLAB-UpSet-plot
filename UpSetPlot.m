@@ -1,31 +1,33 @@
 classdef UpSetPlot < handle
-% UpSetPlot: Visualization of set intersections.
+% UpSetPlot Create UpSet plot to visualize set intersections.
 %   Supports both 'distinct' (mutually exclusive) and 'intersect' (overlapping) modes.
-% =========================================================================
-% Basic usage
-% -------------------------------------------------------------------------
-% setMat = rand([200, 5]) > 0.85;
 % 
-% USP = UpSetPlot(setMat);
-% USP.calc();
-% USP.draw();
-% =========================================================================
-% ## fileexchange
-% Zhaoxu Liu / slandarer (2026). UpSet plot 
-% (https://www.mathworks.com/matlabcentral/fileexchange/123695-upset-plot), 
-% MATLAB Central File Exchange. Retrieved April 27, 2026.
-% ## gitee
-% https://gitee.com/slandarer/matlab-up-set-plot
-% ## github
-% https://github.com/slandarer/MATLAB-UpSet-plot
+% Basic usage:
+%   setMat = rand([200, 5]) > 0.85;
+% 
+%   USP = UpSetPlot(setMat);
+%   USP.calc();
+%   USP.draw();
 
+
+% =========================================================================
+% fileexchange:
+%   Zhaoxu Liu / slandarer (2026). UpSet plot 
+%   (https://www.mathworks.com/matlabcentral/fileexchange/123695-upset-plot), 
+%   MATLAB Central File Exchange. Retrieved April 27, 2026.
+%
+% gitee:
+%   https://gitee.com/slandarer/matlab-up-set-plot
+%
+% github:
+%   https://github.com/slandarer/MATLAB-UpSet-plot
+% =========================================================================
     properties
-        arginList = {'SetName', 'Mode', 'BarColorI', 'BarColorS', 'LineColor'}
         fig = []     % Figure handle
         axI          % Axes for Intersection size bar chart.
         axS          % Axes for Set size horizontal bar chart.
         axC          % Axes for Connection matrix chart.
-
+        arginList = {'SetName', 'Mode', 'BarColorI', 'BarColorS', 'LineColor'}
 
         SetNum  = 0
         SetName = {}
@@ -58,10 +60,14 @@ classdef UpSetPlot < handle
         BkgDotColor = [233,233,233]./255;
         % =================================================================
         sortSetSize, sortSetIndex,
-        nzCount, nzIndex, nzNum, binCount, 
-        fulBool, decList, decCode, SetSize, oriIndex
+        nzCount, nzIndex, oriIndex  
         barHdlI, barHdlS, txtHdlI, txtHdlS, nameHdl, 
         bkgEdgeHdl, olineHdl
+    end
+
+    properties (Hidden)
+        nzNum, binCount,
+        fulBool, decList, decCode, SetSize
     end
 
     methods
@@ -183,6 +189,7 @@ classdef UpSetPlot < handle
             obj.barHdlS.FaceColor = 'flat';
             obj.barHdlS.CData = tC;
             % Add set names as annotations.
+            obj.nameHdl = gobjects(1, obj.SetNum);
             for i = 1:obj.SetNum
                 obj.nameHdl(i) = annotation('textbox', [(obj.axS.Position(1) + obj.axS.Position(3) + obj.axI.Position(1))/2 - .02, ...
                      obj.axS.Position(2) + obj.axS.Position(4)./obj.SetNum.*(i - .5) - .02, .04, .04], ...
@@ -200,6 +207,7 @@ classdef UpSetPlot < handle
                 fill(obj.axC, obj.axI.XLim([1,2,2,1]), [-.5, -.5, .5, .5] + i, ...
                     obj.PatchColor(mod(i+1, 2)+1, :), 'EdgeColor', 'none');
             end
+            obj.bkgEdgeHdl =  gobjects(1, obj.SetNum);
             for i = 1:obj.SetNum
                 obj.bkgEdgeHdl(i) = plot(obj.axC, obj.axI.XLim([1,2,2,1,1]), [-.5, -.5, .5, .5,-.5] + i, ...
                     'Color','none', 'LineWidth',2);
@@ -209,6 +217,7 @@ classdef UpSetPlot < handle
             plot(obj.axC, tX(:), tY(:), 'o', 'Color',obj.BkgDotColor(1, :), ...
                 'MarkerFaceColor',obj.BkgDotColor(1, :), 'MarkerSize',10);
             % Draw connection lines and filled dots for active combinations.
+            obj.olineHdl = gobjects(1, min(MaxBars, obj.nzNum));
             for i = 1:min(MaxBars, obj.nzNum)
                 tY = find(obj.fulBool(obj.nzIndex(i), obj.sortSetIndex));
                 tX = tY.*0 + i;

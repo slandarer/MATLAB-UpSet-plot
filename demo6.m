@@ -1,4 +1,4 @@
-% demo 6 : Highlight for bar chart
+%% demo 6 : Highlight for bar chart
 
 
 rng(1)

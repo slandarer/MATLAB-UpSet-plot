@@ -1,4 +1,4 @@
-% demo 3 : Change colors
+%% demo 3 : Change colors
 
 rng(5)
 setMat = rand([200, 5]) > 0.85;
