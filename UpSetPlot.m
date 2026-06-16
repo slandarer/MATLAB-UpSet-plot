@@ -1,6 +1,6 @@
 classdef UpSetPlot < handle
-% UpSetPlot Create UpSet plot to visualize set intersections.
-%   Supports both 'distinct' (mutually exclusive) and 'intersect' (overlapping) modes.
+% UpSetPlot Create UpSet plot to visualize set intersections,  
+% supports both 'distinct' (mutually exclusive) and 'intersect' (overlapping) modes.
 % 
 % Basic usage:
 %   setMat = rand([200, 5]) > 0.85;
