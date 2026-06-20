@@ -10,3 +10,5 @@ setMat = rand([200, 5]) > 0.85;
 USP = UpSetPlot(setMat, 'SetName',setName);
 USP.calc();    % Calculate intersection sizes.  
 USP.draw();    % Render the UpSet plot.
+
+USP

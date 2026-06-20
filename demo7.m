@@ -1,5 +1,4 @@
-%% demo 7 : markers
-
+%% demo 7 : Markers
 
 rng(1)
 setMat = rand([200, 5]) > 0.85;
